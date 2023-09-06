@@ -18,8 +18,7 @@ export default function LoginForm({ login }) {
     evt.preventDefault();
 
     login({username: values.username, password: values.password});
-    console.log(values.username, values.password);
-    console.log(values);
+    
 
     setValues(initialFormValues);
   };

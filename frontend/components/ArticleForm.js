@@ -3,7 +3,7 @@ import PT from 'prop-types';
 
 const initialFormValues = { title: '', text: '', topic: '' };
 
-export default function ArticleForm({ currentArticle, onSubmitArticle, onCancelEdit }) {
+export default function ArticleForm({ currentArticle, onSubmitArticle, onCancelEdit,updateArticle }) {
   const [values, setValues] = useState(initialFormValues);
 
   useEffect(() => {
@@ -24,9 +24,15 @@ export default function ArticleForm({ currentArticle, onSubmitArticle, onCancelE
   };
 
   const onSubmit = (evt) => {
+    console.log(currentArticle);
     evt.preventDefault();
-    onSubmitArticle(values);
+    if (currentArticle) {
+      updateArticle({article_id: currentArticle.article_id, article:values})
+    }else {
+      onSubmitArticle(values);
+    }
     console.log(values);
+    setValues(initialFormValues);
   };
 
   const isDisabled = () => {
@@ -36,20 +42,8 @@ export default function ArticleForm({ currentArticle, onSubmitArticle, onCancelE
   return (
     <form id="form" onSubmit={onSubmit}>
       <h2>{currentArticle ? 'Edit Article' : 'Create Article'}</h2>
-      <input
-        maxLength={50}
-        onChange={onChange}
-        value={values.title}
-        placeholder="Enter title"
-        id="title"
-      />
-      <textarea
-        maxLength={200}
-        onChange={onChange}
-        value={values.text}
-        placeholder="Enter text"
-        id="text"
-      />
+      <input maxLength={50} onChange={onChange} value={values.title} placeholder="Enter title" id="title" />
+      <textarea maxLength={200} onChange={onChange} value={values.text} placeholder="Enter text" id="text" />
       <select onChange={onChange} id="topic" value={values.topic}>
         <option value="">-- Select topic --</option>
         <option value="JavaScript">JavaScript</option>
